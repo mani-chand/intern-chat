@@ -27,15 +27,16 @@ const styles = {
     justifyContent: "space-between",
   },
 };
+
 function Chat(props) {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   useEffect(() => {
-    socket.on("message", (message) => {
-      setChat([...chat, message]);
+    socket.on('message', (data) => {
+      setChat([...chat, { username: data.username, message: data.message }]);
     });
-    console.log(chat)
   }, [chat]);
+  
   const handleMessageSend = () => {
     if (message.trim() !== "") {
       socket.emit("message", message);
